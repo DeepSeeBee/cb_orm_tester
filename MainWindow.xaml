@@ -1,0 +1,126 @@
+﻿<Window x:Class="CbOrmTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CbOrmTester"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Control" x:Key="FileControlStyle">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <DockPanel >
+            <Border x:Name="InterceptionBorder" DockPanel.Dock="Bottom" Height="200">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Foreground="Red" FontSize="15" FontWeight="Bold" TextAlignment="Center"  HorizontalAlignment="Stretch" Text="The process was interrupted. Please confirm the action">
+                    </TextBlock>
+                    <UniformGrid Columns="2">
+                        <GroupBox Header="TestReport" >
+                            <ListView x:Name="TestResultListBox" SelectionChanged="TestResultListBox_SelectionChanged">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+
+                                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Key}">
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Value}">
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </GroupBox>
+                        <GroupBox Header="Response">
+                            <UniformGrid Rows="2">
+                                <Button Content="Accept" Click="OnAcceptButtonClick" >
+                                </Button>
+                                <Button Content="Reject" Click="OnRejectButtonClick">
+                                </Button>
+                            </UniformGrid>
+                        </GroupBox>
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="41*"/>
+                    <ColumnDefinition Width="431*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Column="0">
+                    <UniformGrid DockPanel.Dock="Bottom" Columns="2">
+                        <Button Content="RunAll" Click="RunAllButton_Click"/>
+                        <Button Content="RunSelected" Click="RunSelectedButton_Click"/>
+                    </UniformGrid>
+                    <ListView  x:Name="TestCasesListBox" Grid.Column="0" ItemsSource="{Binding .}" ToolTip="TestCasesFileInfo.FullName" SelectionChanged="TestCasesListBox_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Ok" Width="40" DisplayMemberBinding="{Binding Ok}"/>
+                                    <GridViewColumn Header="Name" Width="250" DisplayMemberBinding="{Binding Row.Comment}"/>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+
+                <GridSplitter Grid.Column="1"    ResizeDirection="Columns" Width="10" HorizontalAlignment="Stretch"  />
+                <Grid x:Name="TestCaseGrid" Grid.Column="2" Grid.ColumnSpan="3" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" >
+                        <GroupBox Header="Model definition">
+                            <local:FileGui x:Name="InFileGui" DataContext="{Binding InFileVm}"/>
+                        </GroupBox>
+                    </Grid>
+                    <Button Grid.Row="1" />
+                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ResizeDirection="Rows" Height="10" />
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition>
+                            </RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0">
+                            <GroupBox Header="Reference file">
+                                <local:FileGui x:Name="OutTestFileGui" DataContext="{Binding OutOkFileVm}" ToolTip="" >
+                                </local:FileGui>
+                            </GroupBox>
+                        </Grid>
+                        <GridSplitter Grid.Column="1"  ResizeDirection="Columns" Width="10" HorizontalAlignment="Stretch"  />
+                        
+                        <Grid Grid.Column="2">
+                            <GroupBox Header="Latest file">
+                                <local:FileGui x:Name="OutOkFileGui" DataContext="{Binding OutTestFileVm}" />
+                            </GroupBox>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
