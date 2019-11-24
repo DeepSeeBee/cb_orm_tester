@@ -42,7 +42,7 @@ namespace CbOrmTester
 
             var aDirectoryInfo = new DirectoryInfo(
                 System.IO.Path.Combine(new FileInfo(this.GetType().Assembly.Location).Directory.Parent.Parent.Parent.FullName,
-                    @"CbOrm\Gen\Test"
+                    @"CbOrm\UnitTest"
                     ));
             var aFileInfo = new FileInfo(System.IO.Path.Combine(aDirectoryInfo.FullName, "TestSequence.xdl"));
             var aRows = CRflRow.NewFromTextFile(aFileInfo);
